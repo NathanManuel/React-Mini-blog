@@ -1,55 +1,80 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const Create = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [author, setAuthor] = useState('mario');
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
   const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const blog = { title, body, author };
+    const blog = { name, username, email, address, phone, company };
 
-    fetch('http://localhost:8000/blogs/', {
-      method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(blog)
-    }).then(() => {
-      // history.go(-1);
-      history.push('/');
-    })
-  }
+    axios
+      .post("https://jsonplaceholder.typicode.com/users/", {
+        body: JSON.stringify(blog),
+      })
+      .then(() => {
+        history.push("/");
+        console.log(blog);
+      });
+  };
 
   return (
     <div className="create">
-      <h2>Add a New Blog</h2>
+      <h2>Add a New User</h2>
       <form onSubmit={handleSubmit}>
-        <label>Blog title:</label>
-        <input 
-          type="text" 
-          required 
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <label>Blog body:</label>
-        <textarea
+        <label>Name:</label>
+        <input
+          type="text"
           required
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-        ></textarea>
-        <label>Blog author:</label>
-        <select
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-        >
-          <option value="mario">mario</option>
-          <option value="yoshi">yoshi</option>
-        </select>
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <label>Username:</label>
+        <input
+          type="text"
+          required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <label>Email:</label>
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label>Address:</label>
+        <input
+          type="text"
+          required
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
+        <label>Phone:</label>
+        <input
+          type="text"
+          required
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+        <label>Company Name:</label>
+        <input
+          type="text"
+          required
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
         <button>Add Blog</button>
       </form>
     </div>
   );
-}
- 
+};
+
 export default Create;
