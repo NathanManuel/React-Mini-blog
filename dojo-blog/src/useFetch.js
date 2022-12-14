@@ -11,7 +11,7 @@ const useFetch = (url) => {
     axios
       .get(url)
       .then((res) => {
-        if (res.status != 200) {
+        if (res.status !== 200) {
           // error coming back from server
           throw Error("could not fetch the data for that resource");
         }
